@@ -8,3 +8,4 @@ Created on Thu Apr 20 14:15:21 2023
 from math import * 
 import numpy as np
 
+b=2
