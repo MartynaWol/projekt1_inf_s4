@@ -8,4 +8,8 @@ Created on Thu Apr 20 14:15:21 2023
 from math import * 
 import numpy as np
 
-b=22
+class BL:
+    
+    def __init__(self, B, L):
+        self.B = B
+        self.L = L
