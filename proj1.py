@@ -10,13 +10,17 @@ import numpy as np
 
 class BL:
     
-    def __init__(self, B, L):
+    def __init__(self, B, L, A, E2):
         self.B = B
         self.L = L
+        self.A = A
+        self.E2 = E2
         
     def zamiana_na_2000(self):
         fia = self.B
         lambdaa = self.L
+        a = self.A
+        e2 = self.E2
         if (lambdaa>(13.5*np.pi/180) and (lambdaa<16.5*np.pi/180)) or (lambdaa==(13.5*np.pi/180)):
             l0 = 5
         if (lambdaa>(16.5*np.pi/180) and lambdaa<(19.5*np.pi/180)) or (lambdaa==(16.5*np.pi/180)):
@@ -26,8 +30,6 @@ class BL:
         if (lambdaa>(22.5*np.pi/180) and lambdaa<(25.5*np.pi/180)) or (lambdaa==(22.5*np.pi/180)):
             l0 = 8
         L0=0.3141592653589793
-        a = 6378137.000
-        e2 = 0.00669438002290
         
         def deg2dms(dd): #dziesietne na sto min sec
             deg=np.trunc(dd) #stopnie
@@ -124,7 +126,9 @@ class BL:
         
 f = (52 + 50/60 + 00/3600)* np.pi / 180
 l = (18 + 40/60 + 00/3600)* np.pi / 180
-p1 = BL(f,l)
+a = 6378137.000
+e2 = 0.00669438002290
+p1 = BL(f,l,a,e2)
 BL.zamiana_na_2000(p1)
 BL.zamiana_na_1992(p1)
 
@@ -193,9 +197,9 @@ Aby przetransformowac wspł. zapisz je jako:
     XYZ->NEU:
         X_a, Y_a, Z_a, X_b, Y_b, Z_b
     BL->U2000:
-        f2, l2
+        f2, l2, a, e2
     BL->U1992:
-        f92, l92
+        f92, l92, a, e2
 '''
 
 
