@@ -8,6 +8,69 @@ Created on Thu Apr 20 14:15:21 2023
 from math import * 
 import numpy as np
 
+
+class XYZ_BLH:
+    def __init__(self,X,Y,Z):
+        self.X = X
+        self.Y = Y
+        self.Z = Z
+    def zamianaxyz_blh(self):
+        x = self.X
+        y = self.Y
+        z = self.Z
+        
+        def Np(f,a,e2): #promien krzywizny N
+            N = a / np.sqrt(1-e2 * np.sin(f)**2)
+            return(N)
+
+        def Mp (f, a, e2):
+            M = a * (1-e2)/np.sqrt((1-e2*(np.sin(f))**2)**3)
+            return(M)
+
+        
+        p = np.sqrt(X**2 + Y**2)
+        f = np.arctan(Z / (p * (1-e2)))
+        while True:
+            N = Np(f,a,e2)
+            h = p/np.cos(f) - N
+            fs = f
+            f = np.arctan(Z / (p * (1 - e2 * N / (N + h))))
+            if abs(fs - f) < (0.000001/206265):
+                break 
+        l = np.arctan2(Y,X)
+        print("f", f)
+        print("l", l)
+        print("h", h)
+
+class  BLH_XYZ:
+    def __init(self, f,l,h):
+        self.f = f
+        self.l = l
+        self.h = h
+    def zamianablh(self):
+        f = self.f
+        l = self.l
+        h = self.h
+        
+        def Np(f,a,e2): #promien krzywizny N
+            N = a / np.sqrt(1-e2 * np.sin(f)**2)
+            return(N)
+        
+        while True:
+            N = Np(f,a,e2)
+            X = (N + h) * np.cos(f) * np.cos(l)
+            Xp = X
+            Y = (N + h) * np.cos(f) * np.sin(l)
+            Z =  (N * (1 - e2) + h) * np.sin(f)
+            if abs(Xp - X) < (0.000001/206265):
+                break
+        print("X", X)
+        print("Y", Y)
+        print("Z", Z)
+        
+        
+        
+
 class BL:
     
     def __init__(self, B, L, A, E2):
