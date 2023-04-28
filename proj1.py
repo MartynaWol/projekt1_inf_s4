@@ -9,41 +9,42 @@ from math import *
 import numpy as np
 
 
+
 class XYZ_BLH:
-    def __init__(self,X,Y,Z):
+    def __init__(self, X, Y, Z):
         self.X = X
         self.Y = Y
         self.Z = Z
+    
     def zamianaxyz_blh(self):
         x = self.X
         y = self.Y
         z = self.Z
         
         with open('dane.txt', 'r') as f:
-           lines = f.readlines()
+            lines = f.readlines()
         X, Y, Z = map(float, lines[0].split())
         a = float(lines[1])
         e2 = float(lines[2])
        
-        def Np(f,a,e2): #promien krzywizny N
-            N = a / np.sqrt(1-e2 * np.sin(f)**2)
-            return(N)
+        def Np(f, a, e2): #promien krzywizny N
+            N = a / np.sqrt(1 - e2 * np.sin(f) ** 2)
+            return N
 
-        def Mp (f, a, e2):
-            M = a * (1-e2)/np.sqrt((1-e2*(np.sin(f))**2)**3)
-            return(M)
+        def Mp(f, a, e2):
+            M = a * (1 - e2) / np.sqrt((1 - e2 * (np.sin(f)) ** 2) ** 3)
+            return M
 
-        
-        p = np.sqrt(X**2 + Y**2)
-        f = np.arctan(Z / (p * (1-e2)))
+        p = np.sqrt(X ** 2 + Y ** 2)
+        f = np.arctan2(Z, p * (1 - e2))
         while True:
-            N = Np(f,a,e2)
-            h = p/np.cos(f) - N
+            N = Np(f, a, e2)
+            h = p / np.cos(f) - N
             fs = f
-            f = np.arctan(Z / (p * (1 - e2 * N / (N + h))))
-            if abs(fs - f) < (0.000001/206265):
+            f = np.arctan2(Z, p * (1 - e2 * N / (N + h)))
+            if abs(fs - f) < (0.000001 / 206265):
                 break 
-        l = np.arctan2(Y,X)
+        l = np.arctan2(Y, X)
 
         print("f", f)
         print("l", l)
@@ -54,7 +55,8 @@ class XYZ_BLH:
             f.write("l: {}\n".format(l))
             f.write("h: {}\n".format(h))
         
-    
+
+
 class  BLH_XYZ:
     def __init(self, f,l,h):
         self.f = f
@@ -64,6 +66,7 @@ class  BLH_XYZ:
         f = self.f
         l = self.l
         h = self.h
+       
         
         def Np(f,a,e2): #promien krzywizny N
             N = a / np.sqrt(1-e2 * np.sin(f)**2)
@@ -82,21 +85,25 @@ class  BLH_XYZ:
         print("Y", Y)
         print("Z", Z)
         
-        with open("dane.txt", "a") as file:
-            file.write("BLH: " + str(f) + " " + str(l) + " " + str(h) + "\n")
-            file.write("XYZ: " + str(X) + " " + str(Y) + " " + str(Z) + "\n")
-
-with open("dane.txt", "r") as file:
-    lines = file.readlines()
+        with open("dane.txt", "w") as file:
+            lines = file.readlines()
 
 
-for line in lines:
-    data = line.strip().split()
-    f = float(data[0])
-    l = float(data[1])
-    h = float(data[2])
-    obliczenia = BLH_XYZ(f, l, h)
-    obliczenia.zamianablh()
+        for line in lines:
+            data = line.strip().split()
+            f = float(data[0])
+            l = float(data[1])
+            h = float(data[2])
+            obliczenia = BLH_XYZ(f, l, h)
+            obliczenia.zamianablh()
+        with open("dane.txt", "w") as file:
+           file.write("Współrzędne kartezjańskie (X, Y, Z):\n")
+           file.write(f"{X:.4f}, {Y:.4f}, {Z:.4f}")
+       
+        
+       
+
+
         
 
 class BL:
@@ -225,7 +232,7 @@ p1 = BL(f,l,a,e2)
 BL.zamiana_na_2000(p1)
 BL.zamiana_na_1992(p1)
 
-with open("nazwa_pliku.txt", "r") as f:
+with open("nazwa_pliku.txt", "w") as f:
     lines = f.readlines()
 
 results = []
@@ -292,7 +299,7 @@ class XYZtoNEU:
         dneu = R.T @ dXYZ
         
         print('dneu = ', dneu)
-        with open('nazwa_pliku_wejsciowego.txt', 'r') as f:
+        with open('nazwa_pliku_wejsciowego.txt', 'w') as f:
             data = f.readlines()
         
         Xa, Ya, Za, Xb, Yb, Zb = [float(x) for x in data[0].split()]
