@@ -38,6 +38,8 @@ class XYZ_BLH:
             if abs(fs - f) < (0.000001/206265):
                 break 
         l = np.arctan2(Y,X)
+        xyz_blh = f"{f}, {l}, {h}"
+        np.savetxt("xyz_blh.txt", xyz_blh, delimiter=",", fmt="%s")
         print("f", f)
         print("l", l)
         print("h", h)
@@ -64,6 +66,8 @@ class  BLH_XYZ:
             Z =  (N * (1 - e2) + h) * np.sin(f)
             if abs(Xp - X) < (0.000001/206265):
                 break
+        blh_xyz = f"{X}, {Y}, {Z}"
+        np.savetxt("blh_xyz.txt", blh_xyz, delimiter=",", fmt="%s")
         print("X", X)
         print("Y", Y)
         print("Z", Z)
@@ -134,6 +138,7 @@ class BL:
         
         Xgka2000=0.999923*Xgk
         Ygka2000=0.999923*Ygk+l0*1000000+500000
+        
         print('Xgka2000=', Xgka2000, 'Ygka2000=', Ygka2000)
         
         
@@ -184,7 +189,9 @@ class BL:
         
         Xgka1992 = Xgk * 0.9993 - 5300000
         Ygka1992 = Ygk * 0.9993 + 500000
-        print('Xgka1992', Xgka1992, 'Ygka1992=', Ygka1992)
+        bl = f"{Xgka1992}, {Ygka1992}"
+        np.savetxt("bl.txt", bl, delimiter=",", fmt="%s")
+        print('Xgka1992', Xgka1992, 'Ygka1992', Ygka1992)
        
         
 f = (52 + 50/60 + 00/3600)* np.pi / 180
@@ -241,6 +248,8 @@ class XYZtoNEU:
                      [ -np.sin(fa) * np.sin(la),  np.cos(la), np.cos(fa) * np.sin(la)],
                      [np.cos(fa), 0, np.sin(fa)]])
         dneu = R.T @ dXYZ
+        neu = f"{dneu}"
+        np.savetxt("dneu.txt", neu, delimiter=",", fmt="%s")
         print('dneu = ', dneu)
         
         
