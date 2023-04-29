@@ -11,63 +11,68 @@ import numpy as np
 
 
 class XYZ_BLH:
-    def __init__(self, X, Y, Z):
-        self.X = X
-        self.Y = Y
-        self.Z = Z
+    def __init__(self, x, y, z):
+        self.X = x
+        self.Y = y
+        self.Z = z
     
     def zamianaxyz_blh(self):
-        x = self.X
-        y = self.Y
-        z = self.Z
+        X = self.X
+        Y = self.Y
+        Z = self.Z
+        a = 6378137
+        e2 = 0.00669438002290
+    
+        def Np(f,a,e2):
+            N = a / np.sqrt(1 - e2*np.sin(f)**2)
+            return(N)
         
-        with open('dane.txt', 'r') as f:
-            lines = f.readlines()
-        X, Y, Z = map(float, lines[0].split())
-        a = float(lines[1])
-        e2 = float(lines[2])
-       
-        def Np(f, a, e2): #promien krzywizny N
-            N = a / np.sqrt(1 - e2 * np.sin(f) ** 2)
-            return N
-
-        def Mp(f, a, e2):
-            M = a * (1 - e2) / np.sqrt((1 - e2 * (np.sin(f)) ** 2) ** 3)
-            return M
-
-        p = np.sqrt(X ** 2 + Y ** 2)
-        f = np.arctan2(Z, p * (1 - e2))
+        def Mp(f,a,e2):
+            M = (a*(1-e2))/ (np.sqrt(1 - e2*np.sin(f)**2))**3
+            return(M)
+        
+        p = np.sqrt(X**2 + Y**2)
+        f = np.arctan(Z / (p * (1 - e2)))
         while True:
-            N = Np(f, a, e2)
-            h = p / np.cos(f) - N
+            N = Np(f,a,e2)
+            h = (p/np.cos(f)) - N
             fs = f
-            f = np.arctan2(Z, p * (1 - e2 * N / (N + h)))
-            if abs(fs - f) < (0.000001 / 206265):
-                break 
-        l = np.arctan2(Y, X)
+            f = np.arctan(Z / (p* (1 - e2 * N / (N + h))))
+            if abs(fs - f) < (0.000001/206265):
+                break
+        l = np.arctan2(Y,X)
+            
+        with open("wyniki-XYZ_BLH.txt", "w") as file:
+            file.write(f"f = {f}, l = {l}, h = {h}")
+        
 
-        print("f", f)
-        print("l", l)
-        print("h", h)
-        
-        with open('dane.txt', 'a') as f:
-            f.write("f: {}\n".format(f))
-            f.write("l: {}\n".format(l))
-            f.write("h: {}\n".format(h))
-        
+with open("dane-XYZ_BLH.txt", "r") as file:
+    lines = file.readlines()
+
+for line in lines:
+    data = line.strip().split()
+    X = float(data[0])
+    Y = float(data[1])
+    Z = float(data[2])
+    
+obl_XYZ_BLH = XYZ_BLH(X, Y, Z)
+XYZ_BLH.zamianaxyz_blh(obl_XYZ_BLH)
+
 
 
 class  BLH_XYZ:
-    def __init(self, f,l,h):
-        self.f = f
-        self.l = l
-        self.h = h
+    def __init__(self, fi,lam,ha):
+        self.f = fi
+        self.l = lam
+        self.h = ha
+        
     def zamianablh(self):
         f = self.f
         l = self.l
         h = self.h
+        a = 6378137
+        e2 = 0.00669438002290
        
-        
         def Np(f,a,e2): #promien krzywizny N
             N = a / np.sqrt(1-e2 * np.sin(f)**2)
             return(N)
@@ -80,31 +85,23 @@ class  BLH_XYZ:
             Z =  (N * (1 - e2) + h) * np.sin(f)
             if abs(Xp - X) < (0.000001/206265):
                 break
-        
-        print("X", X)
-        print("Y", Y)
-        print("Z", Z)
-        
-        with open("dane.txt", "w") as file:
-            lines = file.readlines()
-
-
-        for line in lines:
-            data = line.strip().split()
-            f = float(data[0])
-            l = float(data[1])
-            h = float(data[2])
-            obliczenia = BLH_XYZ(f, l, h)
-            obliczenia.zamianablh()
-        with open("dane.txt", "w") as file:
-           file.write("Współrzędne kartezjańskie (X, Y, Z):\n")
-           file.write(f"{X:.4f}, {Y:.4f}, {Z:.4f}")
+            
+        with open("wyniki-BLH_XYZ.txt", "w") as file:
+            file.write(f"X = {X}, Y = {Y}, Z = {Z}")
        
-        
-       
+with open("dane-BLH_XYZ.txt", "r") as file:
+    lines = file.readlines()
+
+for line in lines:
+    data = line.strip().split()
+    f = float(data[0])
+    l = float(data[1])
+    h = float(data[2])
+    
+obl = BLH_XYZ(f, l, h)
+BLH_XYZ.zamianablh(obl)
 
 
-        
 
 class BL:
     
@@ -170,7 +167,8 @@ class BL:
         Xgka2000=0.999923*Xgk
         Ygka2000=0.999923*Ygk+l0*1000000+500000
         
-        print('Xgka2000=', Xgka2000, 'Ygka2000=', Ygka2000)
+        with open("wyniki-BL_U2000.txt", "w") as file:
+            file.write(f"Xgka2000 = {Xgka2000}, Ygka2000 = {Ygka2000}")
         
         
     def zamiana_na_1992(self):
@@ -221,35 +219,37 @@ class BL:
         Xgka1992 = Xgk * 0.9993 - 5300000
         Ygka1992 = Ygk * 0.9993 + 500000
        
-        print('Xgka1992', Xgka1992, 'Ygka1992', Ygka1992)
+        with open("wyniki-BL_U1992.txt", "w") as file:
+            file.write(f"Xgka1992 = {Xgka1992}, Ygka1992 = {Ygka1992}")
        
-        
-f = (52 + 50/60 + 00/3600)* np.pi / 180
-l = (18 + 40/60 + 00/3600)* np.pi / 180
-a = 6378137.000
-e2 = 0.00669438002290
-p1 = BL(f,l,a,e2)
-BL.zamiana_na_2000(p1)
-BL.zamiana_na_1992(p1)
 
-with open("nazwa_pliku.txt", "w") as f:
-    lines = f.readlines()
-
-results = []
-
+with open("dane-BL_U2000.txt", "r") as file:
+    lines = file.readlines()
+    
 for line in lines:
-    args = line.strip().split(",") 
+    args = line.strip().split() 
     b = float(args[0])
     l = float(args[1])
     a = float(args[2])
     e2 = float(args[3])
-    bl = BL(b, l, a, e2)
-    result = bl.zamiana_na_2000()
-    results.append(result)
 
-with open("wyniki.txt", "w") as f:
-    for result in results:
-        f.write(str(result) + "\n")
+bl = BL(b,l,a,e2)
+BL.zamiana_na_2000(bl)
+
+
+with open("dane-BL_U1992.txt", "r") as file:
+    lines = file.readlines()
+    
+for line in lines:
+    args = line.strip().split() 
+    b = float(args[0])
+    l = float(args[1])
+    a = float(args[2])
+    e2 = float(args[3])
+
+bl2 = BL(b,l,a,e2)
+BL.zamiana_na_1992(bl2)
+
 
 class XYZtoNEU:
     
@@ -298,24 +298,26 @@ class XYZtoNEU:
                      [np.cos(fa), 0, np.sin(fa)]])
         dneu = R.T @ dXYZ
         
-        print('dneu = ', dneu)
-        with open('nazwa_pliku_wejsciowego.txt', 'w') as f:
-            data = f.readlines()
+        with open("wyniki-XYZ_NEU.txt", "w") as file:
+            file.write(f"dneu = {dneu}")
         
-        Xa, Ya, Za, Xb, Yb, Zb = [float(x) for x in data[0].split()]
-        self.Xa = Xa
-        self.Ya = Ya
-        self.Za = Za
-        self.Xb = Xb
-        self.Yb = Yb
-        self.Zb = Zb
-        
-        
-        with open('nazwa_pliku_wyjsciowego.txt', 'w') as f:
-            f.write('dneu = {}'.format(dneu))
+with open("dane-XYZ_NEU.txt", "r") as file:
+    lines = file.readlines()
+
+for line in lines:
+    data = line.strip().split()
+    Xa = float(data[0])
+    Ya = float(data[1])
+    Za = float(data[2])
+    Xb = float(data[3])
+    Yb = float(data[4])
+    Zb = float(data[5])
+    
+blh = XYZtoNEU(Xa, Ya, Za, Xb, Yb, Zb)
+XYZtoNEU.zamiana_na_NEU(blh)
         
        
-        '''
+'''
 X_b = 3658578.459
 Y_b = 1235988.621
 Z_b = 5059678.594
