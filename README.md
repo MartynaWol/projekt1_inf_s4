@@ -10,7 +10,6 @@ Ten program został stworzony do przeprowadzania transformacji współrzędnych 
 
 	- BL(GRS80, WGS84, Krasowski) -> 1992 
 
-
 Program został napisany dla systemu operacyjnego Windows 10, w programie Spyder w języku programowania Python. Wymagania, które nalezy spełnić aby program działał prawidłowo:
 
 	- posiadać zainstalowany program, w którym zaimplemenowna jest obsługa języka Python (preferowanie Spyder)
@@ -18,7 +17,6 @@ Program został napisany dla systemu operacyjnego Windows 10, w programie Spyder
 	- posiadać zainstalowany program git
 
 	- posiadać konto na stronie github
-
 
 Instrukcja użycia programu:
 
@@ -37,7 +35,6 @@ Instrukcja użycia programu:
 		Python proj1.py <nazwa pliku z danymi>
 
 	7. Program wykona transformację i zapisze plik z wynikami do folderu, w którym pracujesz
-
 
 Instrukcja tworzenia pliku z danymi:
 
@@ -70,11 +67,9 @@ Instrukcja tworzenia pliku z danymi:
 
 	*Wartości kątowe zapisuj w radianach, a resztę w metrach
 
-
 Przykładowy tekst pliku z danymi dla transformacji XYZ -> BLH:
 
 3782480.000	1084940.000	5003080.000
-
 
 Przykładowy tekst pliku z wynikami transformacji XYZ -> BLH:
 
