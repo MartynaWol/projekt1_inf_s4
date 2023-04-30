@@ -317,7 +317,7 @@ except RuntimeWarning:
     print('Sprawdź czy wpisałe odpowiednie dane')
 except IndexError:
     print('Sprawdz czy wprowadziłe odpowiednią ilosć danych')
-#except:
- #   print('Cos poszło nie tak')
+except:
+    print('Cos poszło nie tak')
 finally:
     print('Do zobaczenia!')
