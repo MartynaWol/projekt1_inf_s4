@@ -253,8 +253,7 @@ class XYZtoNEU:
             file.write(f"dneu = {dneu}")
         
 
-
-   
+ 
 try:
     if args.dane.name =="dane-XYZ_BLH.txt":
         for line in lines:
@@ -309,8 +308,16 @@ try:
         
         bl2 = BL(b,l,a,e2)
         BL.zamiana_na_1992(bl2)
-except:
-    print('Cos poszło nie tak')
+        
+except AttributeError:
+    print('Podałes zły atrubut')
+except ValueError:
+    print('Źle zapisałes plik z danymi')
+except RuntimeWarning:
+    print('Sprawdź czy wpisałe odpowiednie dane')
+except IndexError:
+    print('Sprawdz czy wprowadziłe odpowiednią ilosć danych')
+#except:
+ #   print('Cos poszło nie tak')
 finally:
-    print('Plik z wynikami znajdziesz w tym samym folderze, co zapisałes sobie program')
     print('Do zobaczenia!')
