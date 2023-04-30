@@ -50,16 +50,7 @@ class XYZ_BLH:
         with open("wyniki-XYZ_BLH.txt", "w") as file:
             file.write(f"f = {f}, l = {l}, h = {h}")
         
-        
-if args.dane.name =="dane-XYZ_BLH.txt":
-    for line in lines:
-        data = line.strip().split()
-        X = float(data[0])
-        Y = float(data[1])
-        Z = float(data[2])
-    obl_XYZ_BLH = XYZ_BLH(X, Y, Z)
-    XYZ_BLH.zamianaxyz_blh(obl_XYZ_BLH)
-    
+
 
 class  BLH_XYZ:
     def __init__(self, fi,lam,ha):
@@ -90,17 +81,6 @@ class  BLH_XYZ:
         with open("wyniki-BLH_XYZ.txt", "w") as file:
             file.write(f"X = {X}, Y = {Y}, Z = {Z}")
        
-
-if args.dane.name =="dane-BLH_XYZ.txt":
-    for line in lines:
-        data = line.strip().split()
-        f = float(data[0])
-        l = float(data[1])
-        h = float(data[2])
-        
-    obl = BLH_XYZ(f, l, h)
-    BLH_XYZ.zamianablh(obl)
-
 
 class BL:
     
@@ -222,32 +202,6 @@ class BL:
             file.write(f"Xgka1992 = {Xgka1992}, Ygka1992 = {Ygka1992}")
        
 
- 
-if args.dane.name =="dane-BL_U2000.txt":
-    for line in lines:
-        args = line.strip().split() 
-        b = float(args[0])
-        l = float(args[1])
-        a = float(args[2])
-        e2 = float(args[3])
-        
-    bl = BL(b,l,a,e2)
-    BL.zamiana_na_2000(bl)
-
-
- 
-if args.dane.name =="dane-BL_U1992.txt":
-    for line in lines:
-        args = line.strip().split() 
-        b = float(args[0])
-        l = float(args[1])
-        a = float(args[2])
-        e2 = float(args[3])
-    
-    bl2 = BL(b,l,a,e2)
-    BL.zamiana_na_1992(bl2)
-
-
 class XYZtoNEU:
     
     def __init__(self, Xa, Ya, Za, Xb, Yb, Zb):
@@ -299,17 +253,64 @@ class XYZtoNEU:
             file.write(f"dneu = {dneu}")
         
 
-if args.dane.name =="dane-XYZ_NEU.txt":
-    for line in lines:
-        data = line.strip().split()
-        Xa = float(data[0])
-        Ya = float(data[1])
-        Za = float(data[2])
-        Xb = float(data[3])
-        Yb = float(data[4])
-        Zb = float(data[5])
-        
-    blh = XYZtoNEU(Xa, Ya, Za, Xb, Yb, Zb)
-    XYZtoNEU.zamiana_na_NEU(blh)
 
-    
+   
+try:
+    if args.dane.name =="dane-XYZ_BLH.txt":
+        for line in lines:
+            data = line.strip().split()
+            X = float(data[0])
+            Y = float(data[1])
+            Z = float(data[2])
+        obl_XYZ_BLH = XYZ_BLH(X, Y, Z)
+        XYZ_BLH.zamianaxyz_blh(obl_XYZ_BLH)
+        
+    if args.dane.name =="dane-XYZ_NEU.txt":
+        for line in lines:
+            data = line.strip().split()
+            Xa = float(data[0])
+            Ya = float(data[1])
+            Za = float(data[2])
+            Xb = float(data[3])
+            Yb = float(data[4])
+            Zb = float(data[5])
+            
+        blh = XYZtoNEU(Xa, Ya, Za, Xb, Yb, Zb)
+        XYZtoNEU.zamiana_na_NEU(blh)
+        
+    if args.dane.name =="dane-BLH_XYZ.txt":
+        for line in lines:
+            data = line.strip().split()
+            f = float(data[0])
+            l = float(data[1])
+            h = float(data[2])
+            
+        obl = BLH_XYZ(f, l, h)
+        BLH_XYZ.zamianablh(obl)
+        
+    if args.dane.name =="dane-BL_U2000.txt":
+        for line in lines:
+            args = line.strip().split() 
+            b = float(args[0])
+            l = float(args[1])
+            a = float(args[2])
+            e2 = float(args[3])
+            
+        bl = BL(b,l,a,e2)
+        BL.zamiana_na_2000(bl)
+
+    if args.dane.name =="dane-BL_U1992.txt":
+        for line in lines:
+            args = line.strip().split() 
+            b = float(args[0])
+            l = float(args[1])
+            a = float(args[2])
+            e2 = float(args[3])
+        
+        bl2 = BL(b,l,a,e2)
+        BL.zamiana_na_1992(bl2)
+except:
+    print('Cos poszło nie tak')
+finally:
+    print('Plik z wynikami znajdziesz w tym samym folderze, co zapisałes sobie program')
+    print('Do zobaczenia!')
