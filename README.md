@@ -42,9 +42,11 @@ Instrukcja tworzenia pliku z danymi:
 	*Wartości kątowe zapisuj w radianach, a resztę w metrach
 
 Przykładowy tekst pliku z danymi dla transformacji XYZ -> BLH:
+
 3782480.000	1084940.000	5003080.000
 
 Przykładowy tekst pliku z wynikami transformacji XYZ -> BLH:
+
 X = 3782480.00001056, Y = 1084940.000003029, Z = 5003080.000013967
 
 
