@@ -39,7 +39,8 @@ Instrukcja tworzenia pliku z danymi:
 		- XYZ -> NEU: Xa, Ya, Za, Xb, Yb, Zb
 		- BL -> 2000: B, L, a, e2
 		- BL -> 1992: B, L, a, e2
-	*Wartości kątowe zapisuj w radianach, a resztę w metrach
+	*Wartości kątowe zapisuj w radianach, a resztę w metrach. W pliku z wynikami jednostki otrzymanych współrzędnych będą takie same jak te które wprowadziłeś.
+	** W transformacji XYZ -> NEU Xa, Ya, Za to współrzedne punktu a (począte układu NEU), a Xb, Yb, Zb punktu b (koniec układu NEU)
 
 Przykładowy tekst pliku z danymi dla transformacji XYZ -> BLH:
 
@@ -57,3 +58,4 @@ Znane błędy i nietypowe zachowania programu:
 	- w przypadku nieprawidłowego zapisu pliku z danymi program może nie wykonać transformacji, lub zostanie ona wykanana błędnie
 	- w przypadku umieszczenia pliku z programem i pliku z danymi w innym folderze program nie wykona transformacji
 	- program nie wykonuje transformacji wielu punktów na raz
+	- transformacje: BL_krasowski -> 1992 i BL_Krasowski -> 2000 dają błedne rezultaty i nie powinny być uzywane
